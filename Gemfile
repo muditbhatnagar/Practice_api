@@ -62,3 +62,11 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'apipie-rails'
+gem "omniauth-google-oauth2"
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-linkedin'
+gem 'will_paginate'
+gem 'rolify'
+gem 'carrierwave'
+gem 'bootstrap-sass', '~> 3.3.4'

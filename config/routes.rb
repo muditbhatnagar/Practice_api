@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :songs
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/failure'
 	root 'users#index'
   apipie
   devise_for :users
@@ -21,7 +25,13 @@ Rails.application.routes.draw do
       resources :users, :only => [:show, :create, :index, :update, :destroy]
       	post "/sign_up", :to => 'registrations#create'
       	put '/change_password', to: 'registrations#change_password'
-      	get "users/download_pdf"
+      	match 'auth/:provider/callback', to: 'sessions#google_login',  via: [:get, :post]
+				match '/auth/failure', :to => 'sessions#failure',  via: [:get, :post]
+				post '/google_login', :to => 'sessions#google_login'
+				get '/profile', :to => 'users#profile'
+        #post '/create_song', :to => 'songs#create_song'
+        resources :songs
+				#put '/profile', to => 'users#profile_update'
     end
   end
 

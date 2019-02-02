@@ -8,7 +8,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 	def index
 	 #byebug
 		@users = User.all
-    #@users = @users.paginate(:page => params[:page], :per_page => 10)
+    @users = @users.paginate(:page => params[:page], :per_page => 7)
     render json: {status: 200, data: { :users => @users.as_json}, :message =>"Successfuly Listed Users"}
 	end
 
@@ -48,6 +48,17 @@ class Api::V1::UsersController < Api::V1::ApiController
 		end	
 	end
 
+	def profile
+			#byebug
+		if current_user.role == "admin"
+			user = user.present? ? user : current_user
+				render json: {status: 201, data: {user: user}, :message => "Your Profile"}
+		else
+			user = user.present? ? user : current_user.name, user.present? ? user : current_user.email
+				render json: {status: 201, data: {user: user}, :message => "Your Profile is not permit to see role"}
+		end		
+	end
+		
   private
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation) 
